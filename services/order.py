@@ -16,16 +16,13 @@ def create_order(tickets: list, username: str, date: str = None) -> Order:
             order.created_at = parsed_date
             order.save(update_fields=["created_at"])
 
-        ticket_objects = []
         for tic in tickets:
             movie_session = MovieSession.objects.get(pk=tic["movie_session"])
-            ticket_objects.append(
-                Ticket(
-                    order=order,
-                    movie_session=movie_session,
-                    row=tic["row"],
-                    seat=tic["seat"]
-                )
+            ticket = Ticket(
+                order=order,
+                movie_session=movie_session,
+                row=tic["row"],
+                seat=tic["seat"]
             )
             ticket.save()
 
@@ -37,4 +34,3 @@ def get_orders(username: str = None) -> Order:
     if username:
         result = result.filter(user__username=username)
     return result
-
