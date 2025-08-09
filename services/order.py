@@ -27,8 +27,8 @@ def create_order(tickets: list, username: str, date: str = None) -> Order:
                     seat=tic["seat"]
                 )
             )
+            ticket.save()
 
-        Ticket.objects.bulk_create(ticket_objects)
         return order
 
 
@@ -37,3 +37,4 @@ def get_orders(username: str = None) -> Order:
     if username:
         result = result.filter(user__username=username)
     return result
+
